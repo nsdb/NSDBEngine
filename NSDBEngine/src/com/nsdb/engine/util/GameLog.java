@@ -2,6 +2,8 @@ package com.nsdb.engine.util;
 
 import java.util.Calendar;
 
+import android.util.Log;
+
 /**
  * Logger for this game.
  *
@@ -14,38 +16,42 @@ public class GameLog {
 	
 	public static void init(String type) {
 		if(cal == null) cal=Calendar.getInstance();
-		info("Logger inited : type-"+type);
+		info("GameLog","Logger inited : type-"+type);
 	}
 	
-	public static void debug(String msg) {
-		if(DEBUG) log("debug",msg);
+	public static void debug(Object obj, String msg) {
+		if(obj.getClass()==String.class)
+			Log.d((String)obj,msg);
+		else
+			Log.d(obj.getClass().getSimpleName(),msg);
+	}
+	
+	public static void info(Object obj, String msg) {
+		if(obj.getClass()==String.class)
+			Log.i((String)obj,msg);
+		else
+			Log.i(obj.getClass().getSimpleName(),msg);
+	}
+	
+	public static void danger(Object obj, String msg) {
+		if(obj.getClass()==String.class)
+			Log.w((String)obj,msg);
+		else
+			Log.w(obj.getClass().getSimpleName(),msg);
+	}
+	
+	public static void error(Object obj, String msg) {
+		if(obj.getClass()==String.class)
+			Log.e((String)obj,msg);
+		else
+			Log.e(obj.getClass().getSimpleName(),msg);
+	}
+	
+	public static void fetal(Object obj, String msg) {
+		if(obj.getClass()==String.class)
+			Log.wtf((String)obj,msg);
+		else
+			Log.wtf(obj.getClass().getSimpleName(),msg);
 	}
 
-	public static void info(String msg) {
-		log("info",msg);
-	}
-	
-	public static void danger(String msg) {
-		log("danger",msg);
-	}
-	
-	public static void error(String msg) {
-		log("error",msg);
-	}
-	
-	public static void fetal(String msg) {
-		log("fetal",msg);
-	}
-
-	private static void log(String level,String msg) {
-		String result="["+level+"]["+getCurrentTimeString()+"] "+msg;
-		System.out.println(result);
-	}
-
-	private static String getCurrentTimeString() {
-		cal.setTimeInMillis(System.currentTimeMillis());
-		return ""+cal.get(Calendar.HOUR_OF_DAY)+":"+cal.get(Calendar.MINUTE)+":"+
-				cal.get(Calendar.SECOND)+":"+cal.get(Calendar.MILLISECOND);
-	}
-	
 }

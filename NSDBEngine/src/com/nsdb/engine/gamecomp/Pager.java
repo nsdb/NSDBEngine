@@ -2,8 +2,9 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.nsdb.engine.constant.EngineID;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.core.GC;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;
 
@@ -27,14 +28,14 @@ public class Pager extends GameObject {
 		this.timeMax=time;
 		this.previousPage=previous;
 		this.nextPage=next;
-		this.gameScreenWidth=(Integer)con.get("gameScreenWidth");
+		this.gameScreenWidth=GC.getGameScreenWidth();
 		
 	}
 	
 	@Override
 	public void playGame(int ms) {
 		time+=ms;
-		if(time>timeMax) con.send("pagerEnd",this);
+		if(time>timeMax) con.send(EngineID.MSG_PAGEREND,this);
 	}
 	
 	@Override

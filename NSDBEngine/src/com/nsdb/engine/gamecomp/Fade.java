@@ -2,8 +2,9 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.nsdb.engine.constant.EngineID;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.core.GC;
 import com.nsdb.engine.opengl.comp.Rectangle;
 import com.nsdb.engine.util.Communicable;
 
@@ -28,8 +29,8 @@ public class Fade extends GameObject {
 		this.color=color;
 		this.time=0;
 		this.timeMax=fadeTime;
-		int gameScreenWidth=(Integer)con.get("gameScreenWidth");
-		int gameScreenHeight=(Integer)con.get("gameScreenHeight");
+		int gameScreenWidth=GC.getGameScreenWidth();
+		int gameScreenHeight=GC.getGameScreenHeight();
 		bg=new Rectangle(gameScreenWidth,gameScreenHeight);
 		switch(this.color) {
 		case BLACK: bg.setColor(0, 0, 0); break;
@@ -40,7 +41,7 @@ public class Fade extends GameObject {
 	@Override
 	public void playGame(int ms) {
 		time+=ms;
-		if(time>timeMax) con.send("fadeEnd",this);
+		if(time>timeMax) con.send(EngineID.MSG_FADEEND,this);
 	}
 	
 	@Override

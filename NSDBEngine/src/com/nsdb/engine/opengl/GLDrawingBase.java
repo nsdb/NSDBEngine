@@ -8,8 +8,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.util.Log;
 
-import com.nsdb.engine.util.Communicable;
-
 public abstract class GLDrawingBase implements GLDrawable {
 	
 	private final static String TAG="GLDrawingBase";
@@ -106,7 +104,7 @@ public abstract class GLDrawingBase implements GLDrawable {
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 	}
 
-	@Override public void load(Communicable con) {}
+	@Override public void load() {}
 	@Override public void setColor(float r, float g, float b) { this.r=r; this.g=g; this.b=b; }
 	@Override public void setAlpha(float a) { this.a=a; }
 	@Override public void setLineColor(float r, float g, float b) { this.lr=r; this.lg=g; this.lb=b; }

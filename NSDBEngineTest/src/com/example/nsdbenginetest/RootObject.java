@@ -7,7 +7,7 @@ import com.example.nsdbenginetest.gameobject.MovingCircle;
 import com.example.nsdbenginetest.gameobject.MovingIcon;
 import com.example.nsdbenginetest.gameobject.MovingString;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.ManagerGameObject;
+import com.nsdb.engine.gamecomp.ManagerGameObject;
 import com.nsdb.engine.opengl.comp.Rectangle;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;

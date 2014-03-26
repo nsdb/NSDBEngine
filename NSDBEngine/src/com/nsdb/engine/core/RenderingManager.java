@@ -20,6 +20,7 @@ import android.opengl.GLU;
 import android.opengl.GLUtils;
 
 import com.nsdb.engine.constant.Layer;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.util.GameLog;
 
 /**
@@ -141,7 +142,7 @@ public class RenderingManager implements Renderer {
 		
 		// game screen size check
 		if(gameWidth==0 && gameHeight==0) {
-			GameLog.error("Game screen value has not set!");
+			GameLog.error(this,"Game screen value has not set!");
 		}
 	}
 
@@ -275,13 +276,13 @@ public class RenderingManager implements Renderer {
 			e.printStackTrace();
 			
 			// fail
-			GameLog.info("Failed to load Bitmap Texture : ("+bitmapID+", "+textureIDs[0]+")");
+			GameLog.info(this,"Failed to load Bitmap Texture : ("+bitmapID+", "+textureIDs[0]+")");
 			bitmapPairList.add(new BitmapIDPair(bitmapID,textureIDs[0]));
 			return;
 		}
 		
 		// success
-		GameLog.info("Bitmap Texture Loaded : ("+bitmapID+", "+textureIDs[0]+")");
+		GameLog.info(this,"Bitmap Texture Loaded : ("+bitmapID+", "+textureIDs[0]+")");
 		bitmapPairList.add(new BitmapIDPair(bitmapID,textureIDs[0]));
 	}
 	
@@ -315,7 +316,7 @@ public class RenderingManager implements Renderer {
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 		bitmap.recycle();
 		
-		GameLog.debug("Char Texture Loaded : ("+character+", "+textureIDs[0]+")");
+		GameLog.debug(this,"Char Texture Loaded : ("+character+", "+textureIDs[0]+")");
 		charPairList.add(new CharIDPair(character,textureIDs[0]));
 	}
 

@@ -2,7 +2,8 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.constant.EngineID;
+import com.nsdb.engine.core.GC;
 import com.nsdb.engine.opengl.GLDrawable;
 import com.nsdb.engine.opengl.TransHelper;
 import com.nsdb.engine.util.Communicable;
@@ -25,10 +26,10 @@ public class DrawableObject extends GameObject {
 		super(con);
 		this.x=x;
 		this.y=y;
-		this.gameScreenWidth=(Integer)con.get("gameScreenWidth");
-		this.gameScreenHeight=(Integer)con.get("gameScreenHeight");
+		this.gameScreenWidth=GC.getGameScreenWidth();
+		this.gameScreenHeight=GC.getGameScreenHeight();
 		this.drawable=drawable;
-		if(drawable != null) drawable.load(con);
+		if(drawable != null) drawable.load();
 		this.layer=layer;
 		this.helper=new TransHelper();
 	}
@@ -43,25 +44,27 @@ public class DrawableObject extends GameObject {
 	}
 	
 	@Override
-	public Object get(String name) {
-		if(name.equals("isLoaded"))
+	public Object get(int name) {
+		switch(name) {
+		case EngineID.GET_ISLOADED:
 			if(drawable==null)
 				return true;
 			else
 				return drawable.isLoaded();
-		else if(name.equals("drawable"))
+		case EngineID.GET_DRAWABLE:
 			return drawable;
-		else if(name.equals("x"))
+		case EngineID.GET_X:
 			return x;
-		else if(name.equals("y"))
+		case EngineID.GET_Y:
 			return y;
-		else
+		default:
 			return super.get(name);
+		}
 	}
 	
 	protected void setDrawable(GLDrawable drawable) {
 		this.drawable=drawable;
-		drawable.load(con);
+		drawable.load();
 	}
 	
 	protected void setPoint(float x,float y) {

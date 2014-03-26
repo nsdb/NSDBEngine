@@ -6,7 +6,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.nsdb.engine.opengl.GLDrawable;
 import com.nsdb.engine.opengl.TransHelper;
-import com.nsdb.engine.util.Communicable;
 
 public class DrawSet implements GLDrawable {
 	
@@ -58,9 +57,9 @@ public class DrawSet implements GLDrawable {
 		}
 	}
 	@Override
-	public void load(Communicable con) {
+	public void load() {
 		for(DrawPair d : list)
-			d.drawable.load(con);
+			d.drawable.load();
 	};	
 	@Override
 	public void setColor(float r,float g,float b) {

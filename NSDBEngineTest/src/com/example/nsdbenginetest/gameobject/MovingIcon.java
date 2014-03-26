@@ -2,12 +2,10 @@ package com.example.nsdbenginetest.gameobject;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
-
 import com.example.nsdbenginetest.R;
 import com.example.nsdbenginetest.constant.Screen;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.opengl.comp.BitmapTexture;
 import com.nsdb.engine.util.Communicable;
 
@@ -23,10 +21,9 @@ public class MovingIcon extends GameObject {
 		this.y=(float)Math.random()*(Screen.HEIGHT);
 		this.speedX=(float)Math.random()*600-300f;
 		this.speedY=(float)Math.random()*600-300f;
-		Context context=(Context)con.get("context");
-		this.dw=new BitmapTexture(context,(int)(Math.random()*50)+50,R.drawable.ic_launcher);
+		this.dw=new BitmapTexture((int)(Math.random()*50)+50,R.drawable.ic_launcher);
 		dw.setColor(1,1,1);
-		dw.load(con);
+		dw.load();
 	}
 
 	@Override

@@ -1,10 +1,12 @@
-package com.nsdb.engine.core;
+package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.nsdb.engine.constant.EngineID;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.Controllable;
 import com.nsdb.engine.util.GameEvent;
+import com.nsdb.engine.util.GameLog;
 
 /**
  * 
@@ -13,7 +15,7 @@ import com.nsdb.engine.util.GameEvent;
  *
  */
 public abstract class GameObject implements Controllable,Communicable {
-
+	
 	protected final Communicable con;
 	public GameObject(Communicable con) {
 		this.con=con;
@@ -36,16 +38,18 @@ public abstract class GameObject implements Controllable,Communicable {
 	}
 	
 	@Override
-	public int send(String type,Object content) {
-		return con.send(type,content);
+	public int send(int type,Object content) {
+		GameLog.danger(this, "Can't understand message : "+type);
+		return 0;
 	}
 
 	@Override
-	public Object get(String name) {
-		if(name.equals("isLoaded"))
+	public Object get(int name) {
+		switch(name) {
+		case EngineID.GET_ISLOADED:
 			return true;
-		else
-			return con.get(name);
+		default: return null;
+		}
 	}
 	
 	

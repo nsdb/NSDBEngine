@@ -4,7 +4,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.example.nsdbenginetest.constant.Screen;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.opengl.comp.LinedCircle;
 import com.nsdb.engine.util.Communicable;
 

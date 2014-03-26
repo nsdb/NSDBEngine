@@ -7,9 +7,9 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.nsdb.engine.constant.Align;
+import com.nsdb.engine.core.GC;
 import com.nsdb.engine.opengl.GLDrawable;
 import com.nsdb.engine.opengl.TransHelper;
-import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameLog;
 
 public class StringTexture implements GLDrawable {
@@ -79,7 +79,7 @@ public class StringTexture implements GLDrawable {
 	
 	@Override 
 	public void draw(GL10 gl) {
-		if(!loaded) { GameLog.debug("Texture is not loaded"); return; }
+		if(!loaded) { GameLog.debug(this,"Texture is not loaded"); return; }
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glEnable(GL10.GL_BLEND);
@@ -116,12 +116,12 @@ public class StringTexture implements GLDrawable {
 	}
 	
 	@Override
-	public void load(Communicable con) {
+	public void load() {
 		if(thread != null || loaded) return;
 		for(int i=0;i<string.length();i++) {
-			textureIDs[i]=con.send("getCharTextureID",string.charAt(i));
+			textureIDs[i]=GC.getCharTextureID(string.charAt(i));
 			if(textureIDs[i]==0 && string.charAt(i)!=' ') {
-				thread=new LoadingThread(con);
+				thread=new LoadingThread();
 				thread.start();				
 				return;
 			}
@@ -161,13 +161,11 @@ public class StringTexture implements GLDrawable {
 			return fontSize;
 	}	
 	private class LoadingThread extends Thread {
-		private Communicable con;
-		public LoadingThread(Communicable con) { this.con=con; }
 		@Override
 		public void run() {
-			textureIDs[0]=con.send("loadStringTexture",string);
+			textureIDs[0]=GC.loadStringTexture(string);
 			for(int i=1;i<string.length();i++)
-				textureIDs[i]=con.send("getCharTextureID",string.charAt(i));
+				textureIDs[i]=GC.getCharTextureID(string.charAt(i));
 			loaded=true;
 		}
 	}

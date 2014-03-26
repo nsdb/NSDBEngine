@@ -63,7 +63,7 @@ public class TouchManager {
 	private void calculateRegulator() {
 		// game screen size check
 		if(gameHeight==0 || gameWidth==0) {
-			GameLog.error("Game screen value has not set!");
+			GameLog.error(this,"Game screen value has not set!");
 			return;
 		}
 		// calculate
@@ -87,7 +87,7 @@ public class TouchManager {
 		case MotionEvent.ACTION_DOWN:
 			if(tx<0 || tx>gameWidth || ty<0 || ty>gameHeight) return;
 			event.add(new GameEvent(GameEvent.MOTION_DOWN,tx,ty));
-			GameLog.debug("Action Down : "+tx+", "+ty);
+			GameLog.debug(this,"Action Down : "+tx+", "+ty);
 			pressed=true;
 			pressX=tx;
 			pressY=ty;
@@ -98,10 +98,10 @@ public class TouchManager {
 			
 		case MotionEvent.ACTION_UP:
 			event.add(new GameEvent(GameEvent.MOTION_UP,tx,ty));
-			GameLog.debug("Action Up : "+tx+", "+ty);
+			GameLog.debug(this,"Action Up : "+tx+", "+ty);
 			if(pressed && (System.currentTimeMillis()-pressTime)<CLICK_TIME) {
 				event.add(new GameEvent(GameEvent.MOTION_CLICK,tx,ty));
-				GameLog.debug("Action Click : "+tx+", "+ty);
+				GameLog.debug(this,"Action Click : "+tx+", "+ty);
 			}
 			pressed=false;
 			break;
@@ -110,7 +110,7 @@ public class TouchManager {
 			event.add(new GameEvent(GameEvent.MOTION_DRAG,tx,ty));
 			//GameLog.debug("Action Move : "+tx+", "+ty);
 			if( pressed && Func.distan(pressX,pressY,tx,ty) > SPECIAL_ACTION_RANGE ) {
-				GameLog.debug("Click Range Out : "+(tx-pressX)+", "+(ty-pressY));
+				GameLog.debug(this,"Click Range Out : "+(tx-pressX)+", "+(ty-pressY));
 				pressed=false;
 			}
 			break;
@@ -137,12 +137,12 @@ public class TouchManager {
 		if(pressed) {
 			if(!shortPressChecked && System.currentTimeMillis()-pressTime>=SHORTPRESS_TIME) {
 				event.add(new GameEvent(GameEvent.MOTION_SHORTPRESS,pressX,pressY));
-				GameLog.debug("Action ShortPress : "+pressX+", "+pressY);
+				GameLog.debug(this,"Action ShortPress : "+pressX+", "+pressY);
 				shortPressChecked=true;
 			}
 			if(!longPressChecked && System.currentTimeMillis()-pressTime>=LONGPRESS_TIME) {
 				event.add(new GameEvent(GameEvent.MOTION_LONGPRESS,pressX,pressY));
-				GameLog.debug("Action LongPress : "+pressX+", "+pressY);
+				GameLog.debug(this,"Action LongPress : "+pressX+", "+pressY);
 				longPressChecked=true;
 			}		
 		}

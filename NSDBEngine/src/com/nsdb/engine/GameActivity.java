@@ -11,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.nsdb.engine.core.GameController;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameLog;
 
@@ -36,14 +36,14 @@ public class GameActivity extends Activity implements OnTouchListener {
 		
 		// logger
 		GameLog.init("");
-		GameLog.info("GameActivity created");
+		GameLog.info(this,"GameActivity created");
 
 		// surface view
 		view=new GLSurfaceView(this);
 		view.setEGLConfigChooser(8, 8, 8, 0, 16, 8);
 		view.setOnTouchListener(this);
 		setContentView(view);
-		GameLog.info("GL SurfaceView created");
+		GameLog.info(this,"GL SurfaceView created");
 		
 		// thread
 		thread=new GameController(this,view);
@@ -58,7 +58,7 @@ public class GameActivity extends Activity implements OnTouchListener {
 		try {
 			main=c.getConstructor(new Class[] { Communicable.class }).newInstance(thread);
 		} catch (Exception e) {
-			GameLog.error("Failed to create MainObject");
+			GameLog.error(this,"Failed to create MainObject");
 			e.printStackTrace();
 		}
 		thread.setMainObject(main);
@@ -89,7 +89,7 @@ public class GameActivity extends Activity implements OnTouchListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		GameLog.info("GameActivity resumed");
+		GameLog.info(this,"GameActivity resumed");
 		thread.restart();
 	}
 	
@@ -98,12 +98,12 @@ public class GameActivity extends Activity implements OnTouchListener {
 		super.onPause();
 		
 		// game pause
-		GameLog.info("GameActivity paused");				
+		GameLog.info(this,"GameActivity paused");				
 		thread.pause();
 		
 		// game end
 		if(this.isFinishing()) {
-			GameLog.info("GameActivity destroyed");
+			GameLog.info(this,"GameActivity destroyed");
 			thread.end();
 		}
 	}

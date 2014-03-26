@@ -26,13 +26,13 @@ public class FrameManager {
 	public int getPeriod() { return period; }
 	
 	public void startMeasure() {
-		if(measuring) GameLog.error("Already measuring");
+		if(measuring) GameLog.error(this,"Already measuring");
 		fms=System.currentTimeMillis();
 		measuring=true;
 	}
 	
 	public void endMeasureAndProcess() {
-		if(!measuring) { GameLog.error("You didn't start measuring"); return; }
+		if(!measuring) { GameLog.error(this,"You didn't start measuring"); return; }
 		lms=System.currentTimeMillis();
 		measuring=false;
 		
@@ -47,14 +47,14 @@ public class FrameManager {
 			}
 		} else {
 			lostTime=-sleepTime;
-			GameLog.debug("Lost time exist : "+lostTime);
+			GameLog.debug(this,"Lost time exist : "+lostTime);
 		}
 		
 		// safe frame check
 		if(lms-fms > period*PERIOD_SAFE_MAX || lms-fms < period*PERIOD_SAFE_MIN) {
 			int afterPeriod=Math.round((lms-fms)/PERIOD_SAFE_MAX);
 			if(afterPeriod<PERIOD_BASE) afterPeriod=PERIOD_BASE;
-			//GameLog.debug("Frame change : "+period+"->"+afterPeriod);
+			//GameLog.debug(this,"Frame change : "+period+"->"+afterPeriod);
 			period=afterPeriod;
 		}
 	}

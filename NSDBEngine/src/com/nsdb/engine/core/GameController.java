@@ -1,13 +1,15 @@
 package com.nsdb.engine.core;
 
-import android.content.Context;
+import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import com.nsdb.engine.constant.EngineID;
 import com.nsdb.engine.constant.Layer;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;
 import com.nsdb.engine.util.GameLog;
@@ -19,7 +21,7 @@ import com.nsdb.engine.util.GameLog;
 public class GameController extends Thread implements Communicable {
 	
 	// common
-	private Context context;
+	private Activity activity;
 	private int viewScreenWidth,viewScreenHeight;
 	private int gameScreenWidth,gameScreenHeight;
 	
@@ -41,14 +43,15 @@ public class GameController extends Thread implements Communicable {
 	private SoundPool soundPool;
 	
 	
-	public GameController(Context context,GLSurfaceView view) {
-		this.context=context;
+	public GameController(Activity activity,GLSurfaceView view) {
+		this.activity=activity;
 		this.frameManager=new FrameManager();
 		this.touchManager=new TouchManager();
 		this.view=view;
-		this.renderingManager=new RenderingManager(context);
+		this.renderingManager=new RenderingManager(activity);
 		this.soundPool=new SoundPool(7,AudioManager.STREAM_MUSIC,0);
-		GameLog.info("GameController created");
+		GameLog.info(this,"GameController created");
+		GC.init(this);
 	}
 	
 	// root setting (must)
@@ -69,10 +72,10 @@ public class GameController extends Thread implements Communicable {
 	@Override
 	public final void start() {
 		super.start();
-		GameLog.info("Game thread started");
+		GameLog.info(this,"Game thread started");
 		view.setRenderer(renderingManager);
 		if(main==null) {
-			GameLog.fetal("Root Object has not set!");
+			GameLog.error(this,"Root Object has not set!");
 		}
 	}
 
@@ -80,7 +83,7 @@ public class GameController extends Thread implements Communicable {
 	@Override
 	public final void run() {
 		super.run();
-		GameLog.info("Game thread is running");
+		GameLog.info(this,"Game thread is running");
 		
 		// temp variable (Frequently changed)
 		GameEvent ev=null;
@@ -112,7 +115,7 @@ public class GameController extends Thread implements Communicable {
 			////
 			
 			// wait
-			GameLog.debug("Game thread is waiting being restarted");
+			GameLog.debug(this,"Game thread is waiting being restarted");
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -122,7 +125,7 @@ public class GameController extends Thread implements Communicable {
 		}
 
 		// game end
-		GameLog.info("Game thread ended");
+		GameLog.info(this,"Game thread ended");
 		if(mediaPlayer != null)
 			mediaPlayer.release();
 		soundPool.release();
@@ -130,7 +133,7 @@ public class GameController extends Thread implements Communicable {
 	
 	// game restart
 	public final void restart() {
-		GameLog.info("Game thread restarted");
+		GameLog.info(this,"Game thread restarted");
 		isPaused=false;		
 		if(mediaPlayer != null)
 			mediaPlayer.start();
@@ -138,7 +141,7 @@ public class GameController extends Thread implements Communicable {
 
 	// game pause
 	public final void pause() {
-		GameLog.info("Game thread paused");
+		GameLog.info(this,"Game thread paused");
 		isPaused=true;
 		if(mediaPlayer != null)
 			mediaPlayer.pause();
@@ -146,7 +149,7 @@ public class GameController extends Thread implements Communicable {
 
 	// game end
 	public final void end() {
-		GameLog.info("Game thread will be ended");
+		GameLog.info(this,"Game thread will be ended");
 		isEnded=true;
 	}
 	
@@ -162,72 +165,75 @@ public class GameController extends Thread implements Communicable {
 	public final void pushEvent(int keyCode) {
 		touchManager.pushEvent(keyCode);
 	}
+	
 		
 	// communication
 	@Override
-	public int send(String type,Object content) {
-		GameLog.debug("Controller received message : "+type);
-		if(type.equals("playSound")) {
+	public int send(int type,Object content) {
+		GameLog.debug(this,"Controller received message : "+type);
+		switch(type) {
+		case EngineID.MSG_PLAYSOUND:
 			if(mediaPlayer != null)
 				mediaPlayer.release();
-			mediaPlayer=MediaPlayer.create(context,(Integer)content);
+			mediaPlayer=MediaPlayer.create(activity,(Integer)content);
 			if(mediaPlayer!=null) {
 				mediaPlayer.setLooping(true);
 				mediaPlayer.start();
 				return 1;
-			}
-			else return 0;
+			} else return 0;
 			
-		} else if(type.equals("resetSound")) {			
+		case EngineID.MSG_RESETSOUND:			
 			if(mediaPlayer != null)
 				mediaPlayer.reset();
 			return 1;
 			
-		} else if(type.equals("loadChunk")) {			
-			return soundPool.load(context,(Integer)content,0);
+		case EngineID.MSG_LOADCHUNK:			
+			return soundPool.load(activity,(Integer)content,0);
 			
-		} else if(type.equals("unloadChunk")) {
+		case EngineID.MSG_UNLOADCHUNK:
 			if(soundPool.unload((Integer)content)==true)
 				return 1;
 			else
 				return 0;
 			
-		} else if(type.equals("playChunk")) {			
+		case EngineID.MSG_PLAYCHUNK:			
 			if( soundPool.play((Integer)content,1f,1f,0,0,1f) != 0 )
 				return 1;
 			else
 				return 0;
 			
-		} else if(type.equals("getBitmapTextureID")) {
+		case EngineID.MSG_GETBITMAPTEXTUREID:
 			return renderingManager.getBitmapTextureID( (Integer)content );
 			
-		} else if(type.equals("loadBitmapTexture")) {
+		case EngineID.MSG_LOADBITMAPTEXTURE:
 			return renderingManager.loadBitmapTexture( (Integer)content );
 			
-		} else if(type.equals("getCharTextureID")) {
+		case EngineID.MSG_GETCHARTEXTUREID:
 			return renderingManager.getCharTextureID( (Character)content );
 			
-		} else if(type.equals("loadStringTexture")) {
+		case EngineID.MSG_LOADSTRINGTEXTURE:
 			return renderingManager.loadStringTexture( (String)content );
 			
 		}
 		
 		
-		GameLog.error("Controller couldn't understand message : "+type);
+		GameLog.error(this,"Controller couldn't understand message : "+type);
 		return 0;
 	}
 	
+	
 	// getter
 	@Override
-	public Object get(String name) {
-		if(name.equals("context"))
-			return context;
-		else if(name.equals("gameScreenWidth"))
+	public Object get(int name) {
+		switch(name) {
+		case EngineID.GET_ACTIVTY:
+			return activity;
+		case EngineID.GET_GAMESCREENWIDTH:
 			return gameScreenWidth;
-		else if(name.equals("gameScreenHeight"))
+		case EngineID.GET_GAMESCREENHEIGHT:
 			return gameScreenHeight;
-		else {
-			GameLog.error("Controller received invalid name of get() : "+name);
+		default:
+			GameLog.error(this,"Controller received invalid name of get() : "+name);
 			return null;			
 		}
 	}

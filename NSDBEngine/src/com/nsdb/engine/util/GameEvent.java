@@ -46,7 +46,7 @@ public class GameEvent {
 	// carve that it is processed
 	public void process() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		processed=true;
 	}
@@ -54,31 +54,31 @@ public class GameEvent {
 	// getter
 	public int getType() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		return type;
 	}
 	public float getX() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		return x+transX;
 	}
 	public float getY() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		return y+transY;
 	}
 	public float getOriginalX() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		return x;
 	}
 	public float getOriginalY() {
 		if(processed) {
-			GameLog.danger("Event is already processed");
+			GameLog.danger(this,"Event is already processed");
 		}
 		return y;
 	}

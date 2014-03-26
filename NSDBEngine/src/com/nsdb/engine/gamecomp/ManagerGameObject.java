@@ -1,4 +1,4 @@
-package com.nsdb.engine.core;
+package com.nsdb.engine.gamecomp;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

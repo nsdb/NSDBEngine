@@ -8,12 +8,11 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+import com.nsdb.engine.core.GC;
 import com.nsdb.engine.opengl.GLDrawable;
-import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameLog;
 
 public class BitmapTexture implements GLDrawable {
@@ -45,7 +44,7 @@ public class BitmapTexture implements GLDrawable {
 		this.bitmapID=bitmapID;		
 		initElse();		
 	}	
-	public BitmapTexture(Context context,float caseSize,int bitmapID) {
+	public BitmapTexture(float caseSize,int bitmapID) {
 		this.caseSize=caseSize;
 		
 		// get width and height of bitmap
@@ -53,7 +52,7 @@ public class BitmapTexture implements GLDrawable {
 		option.inJustDecodeBounds=true;
 		Rect rect=new Rect(-1,-1,-1,-1);
 		try {
-			InputStream is=context.getResources().openRawResource(bitmapID);
+			InputStream is=GC.getContext().getResources().openRawResource(bitmapID);
 			BitmapFactory.decodeStream(is, rect, option);
 			is.close();
 			//bitmap.recycle(); executed at later
@@ -103,7 +102,7 @@ public class BitmapTexture implements GLDrawable {
 
 	@Override
 	public void draw(GL10 gl) {
-		if(!loaded) { GameLog.debug("Texture is not loaded"); return; }
+		if(!loaded) { GameLog.debug(this,"Texture is not loaded"); return; }
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glEnable(GL10.GL_BLEND);
@@ -121,11 +120,11 @@ public class BitmapTexture implements GLDrawable {
 	}
 	
 	@Override
-	public void load(Communicable con) {
+	public void load() {
 		if(thread != null || loaded) return;
-		textureIDs[0]=con.send("getBitmapTextureID",bitmapID);
+		textureIDs[0]=GC.getBitmapTextureID(bitmapID);
 		if(textureIDs[0]==0) {
-			thread=new LoadingThread(con);
+			thread=new LoadingThread();
 			thread.start();
 		} else {
 			loaded=true;
@@ -146,11 +145,9 @@ public class BitmapTexture implements GLDrawable {
 	public int getBitmapID() { return bitmapID; }
 	
 	private class LoadingThread extends Thread {
-		private Communicable con;
-		public LoadingThread(Communicable con) { this.con=con; }	
 		@Override
 		public void run() {
-			textureIDs[0]=con.send("loadBitmapTexture",bitmapID);
+			textureIDs[0]=GC.loadBitmapTexture(bitmapID);
 			loaded=true;
 		}
 	}

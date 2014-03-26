@@ -16,7 +16,7 @@ public class VariableStringTexture extends StringTexture {
 	
 	@Override
 	public void draw(GL10 gl) {
-		if(!loaded) { GameLog.debug("Texture is not loaded"); return; }
+		if(!loaded) { GameLog.debug(this,"Texture is not loaded"); return; }
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);
 		gl.glEnable(GL10.GL_BLEND);

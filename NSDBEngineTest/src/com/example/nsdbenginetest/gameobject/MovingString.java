@@ -5,7 +5,7 @@ import javax.microedition.khronos.opengles.GL10;
 import com.example.nsdbenginetest.constant.Screen;
 import com.nsdb.engine.constant.Align;
 import com.nsdb.engine.constant.Layer;
-import com.nsdb.engine.core.GameObject;
+import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.opengl.comp.StringTexture;
 import com.nsdb.engine.util.Communicable;
 
@@ -26,7 +26,7 @@ public class MovingString extends GameObject {
 		else
 			this.dw=new StringTexture("그래", 50, Align.CENTER);		
 		dw.setColor((float)Math.random(),(float)Math.random(),(float)Math.random());
-		dw.load(con);
+		dw.load();
 	}
 
 	@Override
