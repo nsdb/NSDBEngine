@@ -23,7 +23,6 @@ public class ManagerGameObject extends GameObject {
 	private ArrayList<GameObject> childrenRender;
 	private PointF transAllGame;
 	private PointF transAllRender;
-	private boolean eventMasked;
 	
 	public ManagerGameObject(Communicable con) {
 		super(con);
@@ -33,7 +32,6 @@ public class ManagerGameObject extends GameObject {
 		childrenRender=new ArrayList<GameObject>();
 		transAllGame=new PointF(0,0);
 		transAllRender=new PointF(0,0);
-		eventMasked=false;
 	}
 
 	/**
@@ -59,24 +57,17 @@ public class ManagerGameObject extends GameObject {
 		float tax=transAllGame.x;
 		float tay=transAllGame.y;
 		
-		eventMasked=false;
-		receiveMotionBeforeChildren(ev);
-		if(ev.isProcessed()) return;
-		if(!eventMasked) {
-			ev.addCameraPoint(tax, tay);
-			for(int i=childrenGame.size()-1;i>=0;i--) {
-				childrenGame.get(i).receiveMotion(ev);
-				if(ev.isProcessed()) break;
-			}
-			ev.addCameraPoint(-tax, -tay);
-			if(ev.isProcessed()) return;
+		ev.addCameraPoint(tax, tay);
+		for(int i=childrenGame.size()-1;i>=0;i--) {
+			childrenGame.get(i).receiveMotion(ev);
+			if(ev.isProcessed()) break;
 		}
-		receiveMotionAfterChildren(ev);
+		ev.addCameraPoint(-tax, -tay);
+		if(ev.isProcessed()) return;
+		receiveMotionManager(ev);
 	}
 	
-	protected void receiveMotionBeforeChildren(GameEvent ev) {}
-	protected void receiveMotionAfterChildren(GameEvent ev) {}
-	protected final void maskEvent() { eventMasked=true; }
+	protected void receiveMotionManager(GameEvent ev) {}
 	
 	/**
 	 * Draw screen.<br>
@@ -90,17 +81,15 @@ public class ManagerGameObject extends GameObject {
 		float tax=transAllRender.x;
 		float tay=transAllRender.y;
 		
-		drawScreenBeforeChildren(gl);
+		drawScreenManager(gl);
 		gl.glTranslatef(-tax, tay, 0);
 		for(GameObject o : childrenRender) {
 			o.drawScreen(gl);
 		}
 		gl.glTranslatef(tax, -tay, 0);
-		drawScreenAfterChildren(gl);
 	}
 	
-	protected void drawScreenBeforeChildren(GL10 gl) {}
-	protected void drawScreenAfterChildren(GL10 gl) {}
+	protected void drawScreenManager(GL10 gl) {}
 	
 	/**
 	 * Start control child.<br>

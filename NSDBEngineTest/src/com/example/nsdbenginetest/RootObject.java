@@ -27,7 +27,7 @@ public class RootObject extends ManagerGameObject {
 	}
 
 	@Override
-	public void receiveMotionBeforeChildren(GameEvent ev) {
+	public void receiveMotionManager(GameEvent ev) {
 		if(!ev.isProcessed() && ev.getType()==GameEvent.MOTION_CLICK) {
 			changeTestMode( (testMode==2)? 0:testMode+1 );
 			ev.process();
@@ -35,7 +35,7 @@ public class RootObject extends ManagerGameObject {
 	}
 
 	@Override
-	public void drawScreenBeforeChildren(GL10 gl) {
+	public void drawScreenManager(GL10 gl) {
 		gl.glLoadIdentity();
 		field.draw(gl);
 		field2.draw(gl);
