@@ -6,8 +6,6 @@ import java.util.Queue;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.PointF;
-
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;
 
@@ -21,8 +19,6 @@ public class ManagerGameObject extends GameObject {
 	private Queue<InnerMsg> queueRender;
 	private ArrayList<GameObject> childrenGame;
 	private ArrayList<GameObject> childrenRender;
-	private PointF transAllGame;
-	private PointF transAllRender;
 	
 	public ManagerGameObject(Communicable con) {
 		super(con);
@@ -30,8 +26,6 @@ public class ManagerGameObject extends GameObject {
 		queueRender=new LinkedList<InnerMsg>();
 		childrenGame=new ArrayList<GameObject>();
 		childrenRender=new ArrayList<GameObject>();
-		transAllGame=new PointF(0,0);
-		transAllRender=new PointF(0,0);
 	}
 
 	/**
@@ -54,8 +48,8 @@ public class ManagerGameObject extends GameObject {
 	@Override
 	public final void receiveMotion(GameEvent ev) {
 		if(ev.isProcessed()) return;
-		float tax=transAllGame.x;
-		float tay=transAllGame.y;
+		float tax=point.x;
+		float tay=point.y;
 		
 		ev.addCameraPoint(tax, tay);
 		for(int i=childrenGame.size()-1;i>=0;i--) {
@@ -76,20 +70,18 @@ public class ManagerGameObject extends GameObject {
 	 */
 	@Override
 	public final void drawScreen(GL10 gl) {
-		emptyRenderQueue();
-		transAllRender.set(transAllGame);
-		float tax=transAllRender.x;
-		float tay=transAllRender.y;
+		super.drawScreen(gl);
 		
-		drawScreenManager(gl);
+		emptyRenderQueue();
+		float tax=point.x;
+		float tay=point.y;
+		
 		gl.glTranslatef(-tax, tay, 0);
 		for(GameObject o : childrenRender) {
 			o.drawScreen(gl);
 		}
 		gl.glTranslatef(tax, -tay, 0);
 	}
-	
-	protected void drawScreenManager(GL10 gl) {}
 	
 	/**
 	 * Start control child.<br>
@@ -128,13 +120,6 @@ public class ManagerGameObject extends GameObject {
 		GameObject[] list=(GameObject[])childrenGame.toArray(new GameObject[0]);
 		for(int i=0;i<list.length;i++)
 			stopControl(list[i]);
-	}
-	
-	/**
-	 * set translate value for children 
-	 */
-	protected void setTransAll(float x,float y) {
-		transAllGame.set(x, y);
 	}
 	
 	

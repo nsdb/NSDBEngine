@@ -25,7 +25,7 @@ public class DrawSet implements GLDrawable {
 		cy=0;
 	}
 
-	// add drawing
+	// add drawing (you must not add drawable during rendering)
 	public void add(GLDrawable drawable,float rx,float ry) {
 		list.add(new DrawPair(drawable,rx,ry));
 		// calculate size

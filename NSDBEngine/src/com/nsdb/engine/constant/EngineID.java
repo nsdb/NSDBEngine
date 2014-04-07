@@ -18,16 +18,7 @@ public class EngineID {
 	public final static int GET_GAMESCREENHEIGHT=-3;
 	
 	// GameObject and its subclass
-	public final static int MSG_CLICKED=-101;
-	public final static int MSG_SHORTPRESSED=-102;
-	public final static int MSG_LONGPRESSED=-103;
 	public final static int MSG_FADEEND=-104;
 	public final static int MSG_PAGEREND=-105;
-	
-	public final static int GET_ISLOADED=-101;
-	public final static int GET_DRAWABLE=-102;
-	public final static int GET_X=-103;
-	public final static int GET_Y=-104;
-
 	
 }

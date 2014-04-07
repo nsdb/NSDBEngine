@@ -28,9 +28,7 @@ public class Fade extends GameObject {
 		this.color=color;
 		this.time=0;
 		this.timeMax=fadeTime;
-		int gameScreenWidth=GC.getGameScreenWidth();
-		int gameScreenHeight=GC.getGameScreenHeight();
-		bg=new Rectangle(gameScreenWidth,gameScreenHeight);
+		bg=new Rectangle(GC.getGameScreenWidth(),GC.getGameScreenHeight());
 		switch(this.color) {
 		case BLACK: bg.setColor(0, 0, 0); break;
 		case WHITE: bg.setColor(1, 1, 1); break;

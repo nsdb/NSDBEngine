@@ -2,7 +2,9 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.constant.EngineID;
+import android.graphics.PointF;
+
+import com.nsdb.engine.opengl.GLDrawable;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.Controllable;
 import com.nsdb.engine.util.GameEvent;
@@ -17,9 +19,12 @@ import com.nsdb.engine.util.GameLog;
 public abstract class GameObject implements Controllable,Communicable {
 	
 	protected final Communicable con;
+	protected PointF point;
+	protected GLDrawable drawable;
+	
 	public GameObject(Communicable con) {
 		this.con=con;
-		//GameLog.debug("GameObject created : hash-"+this.hashCode());
+		point=new PointF(0,0);
 	}
 	
 	@Override
@@ -32,9 +37,42 @@ public abstract class GameObject implements Controllable,Communicable {
 		// NOTHING
 	}
 	
+	
+//	@Override
+//	public void receiveMotion(GameEvent ev) {
+//		if(drawable==null) return;
+//		float rx=ev.getX()-x;
+//		float ry=ev.getY()-y;
+//		if(rx<-drawable.getWidth()/2 || rx>drawable.getWidth()/2) return;
+//		if(ry<-drawable.getHeight()/2 || ry>drawable.getHeight()/2) return;
+//
+//		switch(ev.getType()) {
+//		case GameEvent.MOTION_CLICK:
+//			con.send(EngineID.MSG_CLICKED,this);
+//			ev.process();
+//			break;
+//		case GameEvent.MOTION_SHORTPRESS:
+//			con.send(EngineID.MSG_SHORTPRESSED,this);
+//			ev.process();
+//			break;
+//		case GameEvent.MOTION_LONGPRESS:
+//			con.send(EngineID.MSG_LONGPRESSED,this);
+//			ev.process();
+//			break;
+//		}
+//	}
+	
+	
 	@Override
 	public void drawScreen(GL10 gl) {
-		// NOTHING
+		GLDrawable tDrawable=drawable;
+		if(tDrawable==null) return;
+		float tax=point.x;
+		float tay=point.y;
+		
+		gl.glTranslatef(-tax, tay, 0);
+		tDrawable.draw(gl);
+		gl.glTranslatef(tax, -tay, 0);
 	}
 	
 	@Override
@@ -45,11 +83,8 @@ public abstract class GameObject implements Controllable,Communicable {
 
 	@Override
 	public Object get(int name) {
-		switch(name) {
-		case EngineID.GET_ISLOADED:
-			return true;
-		default: return null;
-		}
+		GameLog.danger(this, "Invalid get parameter : "+name);
+		return null;
 	}
 	
 	
