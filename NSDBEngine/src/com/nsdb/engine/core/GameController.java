@@ -8,7 +8,6 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 import com.nsdb.engine.constant.EngineID;
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;
@@ -87,7 +86,6 @@ public class GameController extends Thread implements Communicable {
 		
 		// temp variable (Frequently changed)
 		GameEvent ev=null;
-		int lc;
 		
 		while(!isEnded) {
 			
@@ -103,9 +101,7 @@ public class GameController extends Thread implements Communicable {
 				// process events
 				while(touchManager.peekEvent()!=null) {
 					ev=touchManager.pollEvent();
-					for(lc=Layer.SIZE-1;(lc>=0 && ev.isProcessed()==false);lc--) {
-						main.receiveMotion(ev,lc);
-					}
+					main.receiveMotion(ev);
 				}
 				
 				// frame check end

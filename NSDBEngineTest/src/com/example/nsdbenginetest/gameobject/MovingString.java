@@ -4,7 +4,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.example.nsdbenginetest.constant.Screen;
 import com.nsdb.engine.constant.Align;
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.opengl.comp.StringTexture;
 import com.nsdb.engine.util.Communicable;
@@ -40,8 +39,7 @@ public class MovingString extends GameObject {
 	}
 
 	@Override
-	public void drawScreen(GL10 gl,int layer) {
-		if(layer != Layer.CHARACTER) return;
+	public void drawScreen(GL10 gl) {
 		gl.glLoadIdentity();
 		gl.glTranslatef(x-Screen.WIDTH/2, y-Screen.HEIGHT/2, 0);
 		if(dw.isLoaded())

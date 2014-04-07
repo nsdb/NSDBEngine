@@ -6,7 +6,6 @@ import com.example.nsdbenginetest.constant.Screen;
 import com.example.nsdbenginetest.gameobject.MovingCircle;
 import com.example.nsdbenginetest.gameobject.MovingIcon;
 import com.example.nsdbenginetest.gameobject.MovingString;
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.gamecomp.ManagerGameObject;
 import com.nsdb.engine.opengl.comp.Rectangle;
 import com.nsdb.engine.util.Communicable;
@@ -28,20 +27,18 @@ public class RootObject extends ManagerGameObject {
 	}
 
 	@Override
-	public void receiveMotionBeforeChildren(GameEvent ev,int layer) {
-		if(!ev.isProcessed() && layer==Layer.BACKGROUND && ev.getType()==GameEvent.MOTION_CLICK) {
+	public void receiveMotionBeforeChildren(GameEvent ev) {
+		if(!ev.isProcessed() && ev.getType()==GameEvent.MOTION_CLICK) {
 			changeTestMode( (testMode==2)? 0:testMode+1 );
 			ev.process();
 		}
 	}
 
 	@Override
-	public void drawScreenBeforeChildren(GL10 gl,int layer) {
-		if(layer==Layer.BACKGROUND) {
-			gl.glLoadIdentity();
-			field.draw(gl);
-			field2.draw(gl);
-		}
+	public void drawScreenBeforeChildren(GL10 gl) {
+		gl.glLoadIdentity();
+		field.draw(gl);
+		field2.draw(gl);
 	}
 	
 	private void changeTestMode(int mode) {

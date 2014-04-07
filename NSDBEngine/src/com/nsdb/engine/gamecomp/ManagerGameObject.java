@@ -8,7 +8,6 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.PointF;
 
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.util.Communicable;
 import com.nsdb.engine.util.GameEvent;
 
@@ -55,28 +54,28 @@ public class ManagerGameObject extends GameObject {
 	 * Don't call this! (it will be called automatically if you code right)
 	 */
 	@Override
-	public final void receiveMotion(GameEvent ev,int layer) {
+	public final void receiveMotion(GameEvent ev) {
 		if(ev.isProcessed()) return;
 		float tax=transAllGame.x;
 		float tay=transAllGame.y;
 		
 		eventMasked=false;
-		receiveMotionBeforeChildren(ev,layer);
+		receiveMotionBeforeChildren(ev);
 		if(ev.isProcessed()) return;
 		if(!eventMasked) {
 			ev.addCameraPoint(tax, tay);
 			for(int i=childrenGame.size()-1;i>=0;i--) {
-				childrenGame.get(i).receiveMotion(ev,layer);
+				childrenGame.get(i).receiveMotion(ev);
 				if(ev.isProcessed()) break;
 			}
 			ev.addCameraPoint(-tax, -tay);
 			if(ev.isProcessed()) return;
 		}
-		receiveMotionAfterChildren(ev,layer);
+		receiveMotionAfterChildren(ev);
 	}
 	
-	protected void receiveMotionBeforeChildren(GameEvent ev,int layer) {}
-	protected void receiveMotionAfterChildren(GameEvent ev,int layer) {}
+	protected void receiveMotionBeforeChildren(GameEvent ev) {}
+	protected void receiveMotionAfterChildren(GameEvent ev) {}
 	protected final void maskEvent() { eventMasked=true; }
 	
 	/**
@@ -85,24 +84,23 @@ public class ManagerGameObject extends GameObject {
 	 * Don't call this! (it will be called automatically if you code right)
 	 */
 	@Override
-	public final void drawScreen(GL10 gl, int layer) {
+	public final void drawScreen(GL10 gl) {
 		emptyRenderQueue();
-		if(layer==Layer.BACKGROUND)
-			transAllRender.set(transAllGame);
+		transAllRender.set(transAllGame);
 		float tax=transAllRender.x;
 		float tay=transAllRender.y;
 		
-		drawScreenBeforeChildren(gl, layer);
+		drawScreenBeforeChildren(gl);
 		gl.glTranslatef(-tax, tay, 0);
 		for(GameObject o : childrenRender) {
-			o.drawScreen(gl, layer);
+			o.drawScreen(gl);
 		}
 		gl.glTranslatef(tax, -tay, 0);
-		drawScreenAfterChildren(gl, layer);
+		drawScreenAfterChildren(gl);
 	}
 	
-	protected void drawScreenBeforeChildren(GL10 gl,int layer) {}
-	protected void drawScreenAfterChildren(GL10 gl,int layer) {}
+	protected void drawScreenBeforeChildren(GL10 gl) {}
+	protected void drawScreenAfterChildren(GL10 gl) {}
 	
 	/**
 	 * Start control child.<br>

@@ -13,16 +13,15 @@ public class DrawableObject extends GameObject {
 	protected float x,y;
 	protected float gameScreenWidth,gameScreenHeight;
 	protected GLDrawable drawable;
-	protected int layer;
 	protected TransHelper helper;
 	
-	public DrawableObject(Communicable con, GLDrawable drawable, int layer) {
-		this(con,0,0,drawable,layer);
+	public DrawableObject(Communicable con, GLDrawable drawable) {
+		this(con,0,0,drawable);
 		x=gameScreenWidth/2;
 		y=gameScreenHeight/2;
 	}
 
-	public DrawableObject(Communicable con, float x, float y, GLDrawable drawable, int layer) {
+	public DrawableObject(Communicable con, float x, float y, GLDrawable drawable) {
 		super(con);
 		this.x=x;
 		this.y=y;
@@ -30,13 +29,11 @@ public class DrawableObject extends GameObject {
 		this.gameScreenHeight=GC.getGameScreenHeight();
 		this.drawable=drawable;
 		if(drawable != null) drawable.load();
-		this.layer=layer;
 		this.helper=new TransHelper();
 	}
 	
 	@Override
-	public void drawScreen(GL10 gl,int layer) {
-		if(layer != this.layer) return;
+	public void drawScreen(GL10 gl) {
 		helper.setBasePoint(gl, x, y, gameScreenWidth, gameScreenHeight);
 		if(drawable != null)
 			drawable.draw(gl);

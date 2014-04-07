@@ -19,7 +19,6 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLU;
 import android.opengl.GLUtils;
 
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.gamecomp.GameObject;
 import com.nsdb.engine.util.GameLog;
 
@@ -168,8 +167,7 @@ public class RenderingManager implements Renderer {
 		
 		// game object drawing
 		gl.glLoadIdentity();
-		for(int i=0;i<Layer.SIZE;i++)
-			main.drawScreen(gl,i);
+		main.drawScreen(gl);
 	}
 	
 	public int getBitmapTextureID(int bitmapID) {

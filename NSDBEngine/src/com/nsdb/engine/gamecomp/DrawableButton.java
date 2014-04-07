@@ -7,13 +7,12 @@ import com.nsdb.engine.util.GameEvent;
 
 public class DrawableButton extends DrawableObject {
 	
-	public DrawableButton(Communicable con, float x, float y, GLDrawable drawable, int layer) {
-		super(con, x, y, drawable, layer);
+	public DrawableButton(Communicable con, float x, float y, GLDrawable drawable) {
+		super(con, x, y, drawable);
 	}
 
 	@Override
-	public void receiveMotion(GameEvent ev,int layer) {
-		if(layer != this.layer) return;
+	public void receiveMotion(GameEvent ev) {
 		if(drawable==null) return;
 		float rx=ev.getX()-x;
 		float ry=ev.getY()-y;

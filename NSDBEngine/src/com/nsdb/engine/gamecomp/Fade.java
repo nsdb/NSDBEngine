@@ -3,7 +3,6 @@ package com.nsdb.engine.gamecomp;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.nsdb.engine.constant.EngineID;
-import com.nsdb.engine.constant.Layer;
 import com.nsdb.engine.core.GC;
 import com.nsdb.engine.opengl.comp.Rectangle;
 import com.nsdb.engine.util.Communicable;
@@ -45,9 +44,7 @@ public class Fade extends GameObject {
 	}
 	
 	@Override
-	public void drawScreen(GL10 gl,int layer) {
-		if(layer != Layer.SCREEN) return;
-		
+	public void drawScreen(GL10 gl) {
 		float alpha=(float)Math.min(time,timeMax)/timeMax;
 		if(type==OUT) alpha=1-alpha;
 		bg.setAlpha(alpha);		

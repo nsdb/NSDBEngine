@@ -28,12 +28,12 @@ public abstract class GameObject implements Controllable,Communicable {
 	}
 	
 	@Override
-	public void receiveMotion(GameEvent ev,int layer) {
+	public void receiveMotion(GameEvent ev) {
 		// NOTHING
 	}
 	
 	@Override
-	public void drawScreen(GL10 gl,int layer) {
+	public void drawScreen(GL10 gl) {
 		// NOTHING
 	}
 	
