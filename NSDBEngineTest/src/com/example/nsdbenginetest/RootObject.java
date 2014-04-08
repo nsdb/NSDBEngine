@@ -4,12 +4,12 @@ import com.example.nsdbenginetest.constant.Screen;
 import com.example.nsdbenginetest.gameobject.MovingCircle;
 import com.example.nsdbenginetest.gameobject.MovingIcon;
 import com.example.nsdbenginetest.gameobject.MovingString;
-import com.nsdb.engine.gamecomp.ManagerGameObject;
+import com.nsdb.engine.core.gameobj.ManagerGameObject;
+import com.nsdb.engine.core.opengl.DrawSet;
+import com.nsdb.engine.core.opengl.Rectangle;
+import com.nsdb.engine.core.util.Communicable;
+import com.nsdb.engine.core.util.GameEvent;
 import com.nsdb.engine.gamecomp.SimpleGameObject;
-import com.nsdb.engine.opengl.comp.DrawSet;
-import com.nsdb.engine.opengl.comp.Rectangle;
-import com.nsdb.engine.util.Communicable;
-import com.nsdb.engine.util.GameEvent;
 
 public class RootObject extends ManagerGameObject {
 	

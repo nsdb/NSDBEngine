@@ -3,10 +3,10 @@ package com.example.nsdbenginetest.gameobject;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.example.nsdbenginetest.constant.Screen;
-import com.nsdb.engine.constant.Align;
-import com.nsdb.engine.gamecomp.GameObject;
-import com.nsdb.engine.opengl.comp.StringTexture;
-import com.nsdb.engine.util.Communicable;
+import com.nsdb.engine.core.constant.Align;
+import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.opengl.StringTexture;
+import com.nsdb.engine.core.util.Communicable;
 
 public class MovingString extends GameObject {
 

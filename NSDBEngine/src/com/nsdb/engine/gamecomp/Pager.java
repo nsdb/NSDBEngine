@@ -2,10 +2,11 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.constant.EngineID;
-import com.nsdb.engine.core.GC;
-import com.nsdb.engine.util.Communicable;
-import com.nsdb.engine.util.GameEvent;
+import com.nsdb.engine.core.constant.EngineID;
+import com.nsdb.engine.core.controller.GC;
+import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.util.Communicable;
+import com.nsdb.engine.core.util.GameEvent;
 
 public class Pager extends GameObject {
 	

@@ -4,9 +4,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.example.nsdbenginetest.R;
 import com.example.nsdbenginetest.constant.Screen;
-import com.nsdb.engine.gamecomp.GameObject;
-import com.nsdb.engine.opengl.comp.BitmapTexture;
-import com.nsdb.engine.util.Communicable;
+import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.opengl.BitmapTexture;
+import com.nsdb.engine.core.util.Communicable;
 
 public class MovingIcon extends GameObject {
 

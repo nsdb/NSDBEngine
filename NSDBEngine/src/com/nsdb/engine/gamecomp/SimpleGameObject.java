@@ -1,7 +1,8 @@
 package com.nsdb.engine.gamecomp;
 
-import com.nsdb.engine.opengl.GLDrawable;
-import com.nsdb.engine.util.Communicable;
+import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.util.Communicable;
+import com.nsdb.engine.core.util.GLDrawable;
 
 public class SimpleGameObject extends GameObject {
 	

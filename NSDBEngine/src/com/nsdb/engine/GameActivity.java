@@ -10,10 +10,10 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.nsdb.engine.core.GameController;
-import com.nsdb.engine.gamecomp.GameObject;
-import com.nsdb.engine.util.Communicable;
-import com.nsdb.engine.util.GameLog;
+import com.nsdb.engine.core.controller.GameController;
+import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.util.Communicable;
+import com.nsdb.engine.core.util.GameLog;
 
 /**
  * Parent class of MainActivity. Your MainActivity must inherit this,<br>
