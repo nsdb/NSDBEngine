@@ -6,12 +6,13 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.constant.Align;
 import com.nsdb.engine.core.controller.GC;
 import com.nsdb.engine.core.util.GLDrawable;
 import com.nsdb.engine.core.util.GameLog;
 
 public class StringTexture implements GLDrawable {
+	
+	public enum Align { LEFT, CENTER, RIGHT }
 
 	// buffer
 	protected FloatBuffer vertexBuffer;
@@ -27,7 +28,7 @@ public class StringTexture implements GLDrawable {
 	protected String string;
 	protected float fontSize;
 	protected float textureWidth;
-	protected int align;
+	protected Align align;
 	protected float r,g,b,a;
 	protected int printLength;
 	// bitmap
@@ -37,7 +38,7 @@ public class StringTexture implements GLDrawable {
 	protected TransHelper helper;
 	
 	
-	public StringTexture(String string, float fontSize, int align) {
+	public StringTexture(String string, float fontSize, Align align) {
 		this.string=string;
 		this.fontSize=fontSize;
 		
@@ -89,9 +90,9 @@ public class StringTexture implements GLDrawable {
 		
 		// set rendering start point
 		switch(align) {
-		case Align.LEFT: default: break;
-		case Align.CENTER: helper.translate(gl, -textureWidth/2, 0); break;
-		case Align.RIGHT: helper.translate(gl, -textureWidth, 0); break;
+		case LEFT: default: break;
+		case CENTER: helper.translate(gl, -textureWidth/2, 0); break;
+		case RIGHT: helper.translate(gl, -textureWidth, 0); break;
 		}
 		helper.translate(gl, fontSize/4, 0);
 		
@@ -142,9 +143,9 @@ public class StringTexture implements GLDrawable {
 	@Override public float getHeight() { return fontSize*1.5f; }
 	@Override public float getCenterX() { 
 		switch(align) {
-		case Align.LEFT: return textureWidth/2;
-		case Align.CENTER: default: return 0;
-		case Align.RIGHT: return -textureWidth/2;
+		case LEFT: return textureWidth/2;
+		case CENTER: default: return 0;
+		case RIGHT: return -textureWidth/2;
 		}
 	}
 	@Override public float getCenterY() { return 0; }

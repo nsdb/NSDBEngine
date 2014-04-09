@@ -3,7 +3,6 @@ package com.example.nsdbenginetest.gameobject;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.example.nsdbenginetest.constant.Screen;
-import com.nsdb.engine.core.constant.Align;
 import com.nsdb.engine.core.gameobj.GameObject;
 import com.nsdb.engine.core.opengl.StringTexture;
 import com.nsdb.engine.core.util.Communicable;
@@ -21,9 +20,9 @@ public class MovingString extends GameObject {
 		this.speedX=(float)Math.random()*600-300f;
 		this.speedY=(float)Math.random()*600-300f;
 		if(Math.random()>0.5)
-			this.dw=new StringTexture("Hello", 50, Align.CENTER);
+			this.dw=new StringTexture("Hello", 50, StringTexture.Align.CENTER);
 		else
-			this.dw=new StringTexture("그래", 50, Align.CENTER);		
+			this.dw=new StringTexture("그래", 50, StringTexture.Align.CENTER);		
 		dw.setColor((float)Math.random(),(float)Math.random(),(float)Math.random());
 		dw.load();
 	}

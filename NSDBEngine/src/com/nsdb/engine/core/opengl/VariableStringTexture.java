@@ -2,14 +2,13 @@ package com.nsdb.engine.core.opengl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.constant.Align;
 import com.nsdb.engine.core.util.GameLog;
 
 public class VariableStringTexture extends StringTexture {
 	
 	private String printString;
 
-	public VariableStringTexture(String baseString, float fontSize, int align) {
+	public VariableStringTexture(String baseString, float fontSize, Align align) {
 		super(baseString, fontSize, align);
 		textureWidth=0;
 	}
@@ -27,9 +26,9 @@ public class VariableStringTexture extends StringTexture {
 		
 		// set rendering start point
 		switch(align) {
-		case Align.LEFT: default: break;
-		case Align.CENTER: helper.translate(gl, -textureWidth/2, 0); break;
-		case Align.RIGHT: helper.translate(gl, -textureWidth, 0); break;
+		case LEFT: default: break;
+		case CENTER: helper.translate(gl, -textureWidth/2, 0); break;
+		case RIGHT: helper.translate(gl, -textureWidth, 0); break;
 		}
 		helper.translate(gl, fontSize/4, 0);
 		
