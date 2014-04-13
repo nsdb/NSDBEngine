@@ -21,18 +21,17 @@ public class Fade extends GameObject {
 	private int time;
 	private int timeMax;
 	
-	private Rectangle bg;
-	
 	public Fade(Communicable con,int type,int color,int fadeTime) {
 		super(con);
 		this.type=type;
 		this.color=color;
 		this.time=0;
 		this.timeMax=fadeTime;
-		bg=new Rectangle(GC.getGameScreenWidth(),GC.getGameScreenHeight());
+		
+		drawable=new Rectangle(GC.getGameScreenWidth(),GC.getGameScreenHeight());
 		switch(this.color) {
-		case BLACK: bg.setColor(0, 0, 0); break;
-		case WHITE: bg.setColor(1, 1, 1); break;
+		case BLACK: drawable.setColor(0, 0, 0); break;
+		case WHITE: drawable.setColor(1, 1, 1); break;
 		}
 	}
 	
@@ -43,11 +42,11 @@ public class Fade extends GameObject {
 	}
 	
 	@Override
-	public void drawScreen(GL10 gl) {
+	public void customDrawSetting(GL10 gl) {
 		float alpha=(float)Math.min(time,timeMax)/timeMax;
 		if(type==OUT) alpha=1-alpha;
-		bg.setAlpha(alpha);		
-		bg.draw(gl);
+		drawable.setAlpha(alpha);		
 	}
+
 
 }

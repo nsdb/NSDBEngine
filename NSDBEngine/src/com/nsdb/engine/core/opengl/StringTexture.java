@@ -7,7 +7,6 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.nsdb.engine.core.controller.GC;
-import com.nsdb.engine.core.util.GLDrawable;
 import com.nsdb.engine.core.util.GameLog;
 
 public class StringTexture implements GLDrawable {

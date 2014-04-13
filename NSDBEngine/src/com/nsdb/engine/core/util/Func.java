@@ -1,5 +1,10 @@
 package com.nsdb.engine.core.util;
 
+/**
+ * Simple function
+ * @author NSDB
+ *
+ */
 public class Func {
 
 	public static float distan(float x1,float y1,float x2,float y2) {

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.util.GLDrawable;
-
 public class DrawSet implements GLDrawable {
 	
 	// management

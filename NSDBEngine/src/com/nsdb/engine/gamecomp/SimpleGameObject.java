@@ -1,8 +1,8 @@
 package com.nsdb.engine.gamecomp;
 
 import com.nsdb.engine.core.gameobj.GameObject;
+import com.nsdb.engine.core.opengl.GLDrawable;
 import com.nsdb.engine.core.util.Communicable;
-import com.nsdb.engine.core.util.GLDrawable;
 
 public class SimpleGameObject extends GameObject {
 	
@@ -16,6 +16,10 @@ public class SimpleGameObject extends GameObject {
 		this.point.y=y;
 		this.drawable=drawable;
 		if(drawable != null) drawable.load();
+	}
+
+	@Override
+	public void playGame(int ms) {
 	}
 	
 }

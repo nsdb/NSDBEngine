@@ -6,8 +6,6 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.util.GLDrawable;
-
 import android.util.Log;
 
 public abstract class GLDrawingBase implements GLDrawable {

@@ -1,5 +1,10 @@
 package com.nsdb.engine.core.constant;
 
+/**
+ * PRIVATE
+ * @author NSDB
+ *
+ */
 public class EngineID {
 
 	// GameController

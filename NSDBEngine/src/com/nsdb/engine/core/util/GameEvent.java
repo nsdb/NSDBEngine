@@ -1,8 +1,15 @@
 package com.nsdb.engine.core.util;
 
 /**
- * Converted class of MotionEvent. Its point(x,y) was regulated for game screen. Way to use it is similiar.<br>
+ * Converted class of MotionEvent. Its point(x,y) was regulated for game screen.<br>
  * If you process it, call process() for smooth use.
+ * @author NSDB
+ * @see #process()
+ * @see #getType()
+ * @see #getX()
+ * @see #getY()
+ * @see #getOriginalX()
+ * @see #getOriginalY()
  *
  */
 public class GameEvent {
@@ -20,6 +27,9 @@ public class GameEvent {
 	private boolean processed;
 	private float transX,transY;
 	
+	public GameEvent(int type) {
+		this(type,-999,-999);
+	}
 	public GameEvent(int type,float x,float y) {
 		this.type=type;
 		this.x=x;
@@ -28,22 +38,20 @@ public class GameEvent {
 		this.transX=0;
 		this.transY=0;
 	}
-	public GameEvent(int type) {
-		this.type=type;
-		this.x=-999;
-		this.y=-999;
-		this.processed=false;
-		this.transX=0;
-		this.transY=0;
-	}
 	
-	// camera setting
+	
+	/**
+	 * PRIVATE
+	 */
 	public void translate(float tx, float ty) {
 		this.transX+=tx;
 		this.transY+=ty;
 	}
 	
-	// carve that it is processed
+	// 
+	/**
+	 * carve that it is processed. If you don't call this method after processing, other GameObject will use this event repeatedly.
+	 */
 	public void process() {
 		if(processed) {
 			GameLog.danger(this,"Event is already processed");
@@ -51,7 +59,9 @@ public class GameEvent {
 		processed=true;
 	}
 	
-	// getter
+	/**
+	 * @return type of event. such as MOTION_DOWN
+	 */
 	public int getType() {
 		if(processed) {
 			GameLog.danger(this,"Event is already processed");

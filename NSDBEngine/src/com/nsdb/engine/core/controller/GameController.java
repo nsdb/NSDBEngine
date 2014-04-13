@@ -14,7 +14,8 @@ import com.nsdb.engine.core.util.GameEvent;
 import com.nsdb.engine.core.util.GameLog;
 
 /**
- * Controller of this game. It helps whole GameObject be active smoothly, private.
+ * PRIVATE. Controller of this game. It helps whole GameObject be active smoothly
+ * @author NSDB
  *
  */
 public class GameController extends Thread implements Communicable {

@@ -24,7 +24,7 @@ import com.nsdb.engine.core.util.GameLog;
 
 /**
  * 
- * Rendering manager for GameController, private.
+ * PRIVATE. Rendering manager for GameController
  *
  */
 public class RenderingManager implements Renderer {

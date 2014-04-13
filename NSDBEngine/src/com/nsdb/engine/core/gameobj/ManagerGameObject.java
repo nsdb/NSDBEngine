@@ -10,10 +10,14 @@ import com.nsdb.engine.core.util.Communicable;
 import com.nsdb.engine.core.util.GameEvent;
 
 /**
- * This GameObject can have and control another one, using startControl(GameObject)<br>
- * (Imagine tree data structure)
+ * This GameObject can have and control other GameObject, like tree data structure.<br>
+ * @author NSDB
+ * @see #playGame(int)
+ * @see #startControl(GameObject...)
+ * @see #stopControl(GameObject)
+ * @see #stopControlAll()
  */
-public class ManagerGameObject extends GameObject {
+public abstract class ManagerGameObject extends GameObject {
 
 	private Queue<InnerMsg> queueGame;
 	private Queue<InnerMsg> queueRender;
@@ -28,10 +32,8 @@ public class ManagerGameObject extends GameObject {
 		childrenRender=new ArrayList<GameObject>();
 	}
 
-	/**
-	 * Run time of this object.<br>
-	 * If you override this, you must call super method for controlling children<br>
-	 * Don't call this! (it will be called automatically if you code right)
+	/** 
+	 * If you override this method, <b>MUST CALL super.playGame(int)</b>
 	 */
 	@Override
 	public void playGame(int ms) {
@@ -40,11 +42,6 @@ public class ManagerGameObject extends GameObject {
 			o.playGame(ms);
 	}
 
-	/**
-	 * Receive touch event, and process.<br>
-	 * If you override this, you must call super method, for controlling children<br>
-	 * Don't call this! (it will be called automatically if you code right)
-	 */
 	@Override
 	public final void receiveMotion(GameEvent ev) {
 		if(ev.isProcessed()) return;
@@ -62,11 +59,6 @@ public class ManagerGameObject extends GameObject {
 		super.receiveMotion(ev);
 	}
 	
-	/**
-	 * Draw screen.<br>
-	 * If you override this, you must call super method, for controlling children<br>
-	 * Don't call this! (it will be called automatically if you code right)
-	 */
 	@Override
 	public final void drawScreen(GL10 gl) {
 		super.drawScreen(gl);
@@ -83,8 +75,8 @@ public class ManagerGameObject extends GameObject {
 	}
 	
 	/**
-	 * Start control child.<br>
-	 * Don't call in drawScreen(GL10,int) (It caused thread error)
+	 * Start controlling child GameObject<br>
+	 * <b>DO NOT</b> start controlling same GameObject 2 more times.
 	 */
 	protected void startControl(GameObject... child) {
 		InnerMsg msg;
@@ -98,9 +90,7 @@ public class ManagerGameObject extends GameObject {
 	}
 	
 	/**
-	 * Stop control child.<br>
-	 * Don't call in drawScreen(GL10,int) (It caused thread error)<br>
-	 * Don't start control same GameObject 2 more times.
+	 * Stop controlling child GameObject
 	 */
 	protected void stopControl(GameObject child) {
 		InnerMsg msg=new InnerMsg(InnerMsg.TYPE_STOPCON, child);
@@ -112,7 +102,6 @@ public class ManagerGameObject extends GameObject {
 	
 	/**
 	 * Stop control its whole children (including child pushed a moment ago)<br>
-	 * Don't call in drawScreen(GL10,int) (It caused thread error)
 	 */
 	protected void stopControlAll() {
 		emptyGameQueue();
@@ -122,9 +111,6 @@ public class ManagerGameObject extends GameObject {
 	}
 	
 	
-	/**
-	 * private
-	 */
 	private void emptyGameQueue() {
 		InnerMsg msg=queueGame.poll();
 		while(msg!=null) {
@@ -143,9 +129,6 @@ public class ManagerGameObject extends GameObject {
 		}		
 	}
 	
-	/**
-	 * private
-	 */
 	private void emptyRenderQueue() {
 		synchronized(queueRender) {
 			InnerMsg msg=queueRender.poll();
@@ -159,9 +142,6 @@ public class ManagerGameObject extends GameObject {
 		}
 	}
 	
-	/**
-	 * private
-	 */
 	private final class InnerMsg {
 		public int type;
 		public Object content;

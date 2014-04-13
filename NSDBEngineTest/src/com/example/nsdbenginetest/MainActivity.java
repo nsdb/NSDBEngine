@@ -10,7 +10,7 @@ public class MainActivity extends GameActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setMainObject(RootObject.class);
+		setMainObject(MainObject.class);
 		setGameScreenValue(Screen.WIDTH,Screen.HEIGHT,Screen.HORIZONTAL);
 		setStatusBarVisible(true);
 		startGame();

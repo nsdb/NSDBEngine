@@ -4,8 +4,9 @@ import com.nsdb.engine.core.util.GameLog;
 
 /**
  * 
- * Frame manager for GameController, private.
- *
+ * PRIVATE. Frame manager for GameController
+ * @author NSDB
+ * 
  */
 public class FrameManager {
 	

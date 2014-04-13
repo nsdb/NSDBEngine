@@ -2,8 +2,6 @@ package com.nsdb.engine.core.opengl;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.util.GLDrawable;
-
 
 public class GLHelper {
 

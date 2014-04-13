@@ -17,7 +17,12 @@ import com.nsdb.engine.core.util.GameLog;
 
 /**
  * Parent class of MainActivity. Your MainActivity must inherit this,<br>
- * and set root GameObject and screen size. Then you can start game.
+ * and use following method.
+ * @author NSDB
+ * @see #setMainObject(Class)
+ * @see #setGameScreenValue(int, int, boolean)
+ * @see #setStatusBarVisible(boolean)
+ * @see #startGame()
  *
  */
 public class GameActivity extends Activity implements OnTouchListener {
@@ -53,7 +58,9 @@ public class GameActivity extends Activity implements OnTouchListener {
 		
 	}
 	
-	// root setting (must)
+	/**
+	 * @param c MainObject class for playing game (<b>DO NOT</b> change constructor parameter of MainObject)
+	 */
 	protected void setMainObject(Class<? extends GameObject> c) {
 		try {
 			main=c.getConstructor(new Class[] { Communicable.class }).newInstance(thread);
@@ -64,12 +71,18 @@ public class GameActivity extends Activity implements OnTouchListener {
 		thread.setMainObject(main);
 	}
 	
-	// game screen setting (must)
+	/**
+	 * @param width >0
+	 * @param height >0
+	 * @param horizontal Screen orientation you want
+	 */
 	protected void setGameScreenValue(int width,int height,boolean horizontal) {
 		thread.setGameScreenValue(width, height, horizontal);
 	}
 	
-	// window setting
+	/**
+	 * @param visible Status bar visibility, default is false
+	 */
 	protected void setStatusBarVisible(boolean visible) {
 		if(visible) {
 			getWindow().setFlags(~WindowManager.LayoutParams.FLAG_FULLSCREEN, 
@@ -81,6 +94,9 @@ public class GameActivity extends Activity implements OnTouchListener {
 	}
 	
 	// game start
+	/**
+	 * Start game. Check other setting is completed.
+	 */
 	protected void startGame() {
 		thread.start();
 	}
@@ -109,12 +125,18 @@ public class GameActivity extends Activity implements OnTouchListener {
 	}
 	
 	// touch event
+	/**
+	 * PRIVATE. Do not intercept its process
+	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		thread.pushEvent(event);
 		return true;
 	}
 	
+	/**
+	 * PRIVATE. Do not intercept its process
+	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if(event.getAction()==KeyEvent.ACTION_DOWN && keyCode==KeyEvent.KEYCODE_BACK) {

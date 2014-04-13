@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import com.nsdb.engine.core.controller.GC;
-import com.nsdb.engine.core.util.GLDrawable;
 import com.nsdb.engine.core.util.GameLog;
 
 public class BitmapTexture implements GLDrawable {

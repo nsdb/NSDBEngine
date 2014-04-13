@@ -12,7 +12,7 @@ import com.nsdb.engine.core.util.GameLog;
 
 /**
  * 
- * Touch manager for GameController, private.
+ * PRIVATE. Touch manager for GameController
  *
  */
 public class TouchManager {

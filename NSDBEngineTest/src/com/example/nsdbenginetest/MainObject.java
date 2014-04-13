@@ -11,12 +11,12 @@ import com.nsdb.engine.core.util.Communicable;
 import com.nsdb.engine.core.util.GameEvent;
 import com.nsdb.engine.gamecomp.SimpleGameObject;
 
-public class RootObject extends ManagerGameObject {
+public class MainObject extends ManagerGameObject {
 	
 	int testMode;
 	SimpleGameObject background;
 	
-	public RootObject(Communicable con) {
+	public MainObject(Communicable con) {
 		super(con);
 		this.point.x=-Screen.WIDTH/2;
 		this.point.y=-Screen.HEIGHT/2;

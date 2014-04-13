@@ -1,4 +1,4 @@
-package com.nsdb.engine.core.util;
+package com.nsdb.engine.core.opengl;
 
 import javax.microedition.khronos.opengles.GL10;
 
