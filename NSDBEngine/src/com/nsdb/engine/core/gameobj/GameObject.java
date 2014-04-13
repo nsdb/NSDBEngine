@@ -34,9 +34,18 @@ public abstract class GameObject implements Controllable,Communicable {
 	
 	@Override
 	public void receiveMotion(GameEvent ev) {
-		// NOTHING
+		if(ev.isProcessed()) return;
+		float tax=point.x;
+		float tay=point.y;
+		
+		ev.translate(tax, tay);
+		customMotion(ev);
+		ev.translate(-tax, -tay);
 	}
 	
+	protected void customMotion(GameEvent ev) {
+		// NOTHING
+	}
 	
 //	@Override
 //	public void receiveMotion(GameEvent ev) {

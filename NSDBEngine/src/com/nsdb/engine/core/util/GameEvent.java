@@ -38,7 +38,7 @@ public class GameEvent {
 	}
 	
 	// camera setting
-	public void addCameraPoint(float tx, float ty) {
+	public void translate(float tx, float ty) {
 		this.transX+=tx;
 		this.transY+=ty;
 	}

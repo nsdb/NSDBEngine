@@ -36,8 +36,8 @@ public class RootObject extends ManagerGameObject {
 	}
 
 	@Override
-	public void receiveMotionManager(GameEvent ev) {
-		if(!ev.isProcessed() && ev.getType()==GameEvent.MOTION_CLICK) {
+	public void customMotion(GameEvent ev) {
+		if(ev.getType()==GameEvent.MOTION_CLICK) {
 			changeTestMode( (testMode==2)? 0:testMode+1 );
 			ev.process();
 		}

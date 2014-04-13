@@ -51,17 +51,16 @@ public class ManagerGameObject extends GameObject {
 		float tax=point.x;
 		float tay=point.y;
 		
-		ev.addCameraPoint(tax, tay);
+		ev.translate(tax, tay);
 		for(int i=childrenGame.size()-1;i>=0;i--) {
 			childrenGame.get(i).receiveMotion(ev);
 			if(ev.isProcessed()) break;
 		}
-		ev.addCameraPoint(-tax, -tay);
+		ev.translate(-tax, -tay);
 		if(ev.isProcessed()) return;
-		receiveMotionManager(ev);
+		
+		super.receiveMotion(ev);
 	}
-	
-	protected void receiveMotionManager(GameEvent ev) {}
 	
 	/**
 	 * Draw screen.<br>
