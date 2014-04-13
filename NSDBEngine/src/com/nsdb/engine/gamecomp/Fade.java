@@ -2,7 +2,6 @@ package com.nsdb.engine.gamecomp;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.nsdb.engine.core.constant.EngineID;
 import com.nsdb.engine.core.controller.GC;
 import com.nsdb.engine.core.gameobj.GameObject;
 import com.nsdb.engine.core.opengl.Rectangle;
@@ -21,12 +20,15 @@ public class Fade extends GameObject {
 	private int time;
 	private int timeMax;
 	
-	public Fade(Communicable con,int type,int color,int fadeTime) {
+	private FadeEndListener listener;
+	
+	public Fade(Communicable con,int type,int color,int fadeTime,FadeEndListener listener) {
 		super(con);
 		this.type=type;
 		this.color=color;
 		this.time=0;
 		this.timeMax=fadeTime;
+		this.listener=listener;
 		
 		drawable=new Rectangle(GC.getGameScreenWidth(),GC.getGameScreenHeight());
 		switch(this.color) {
@@ -38,7 +40,8 @@ public class Fade extends GameObject {
 	@Override
 	public void playGame(int ms) {
 		time+=ms;
-		if(time>timeMax) con.send(EngineID.MSG_FADEEND,this);
+		if(time>timeMax && listener!=null)
+			listener.fadeEnd(this);
 	}
 	
 	@Override
@@ -48,5 +51,8 @@ public class Fade extends GameObject {
 		drawable.setAlpha(alpha);		
 	}
 
+	public interface FadeEndListener {
+		public void fadeEnd(GameObject obj);
+	}
 
 }

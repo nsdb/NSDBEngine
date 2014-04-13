@@ -22,8 +22,4 @@ public class EngineID {
 	public final static int GET_GAMESCREENWIDTH=-2;
 	public final static int GET_GAMESCREENHEIGHT=-3;
 	
-	// GameObject and its subclass
-	public final static int MSG_FADEEND=-104;
-	public final static int MSG_PAGEREND=-105;
-	
 }
