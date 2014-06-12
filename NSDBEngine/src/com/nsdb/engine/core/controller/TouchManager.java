@@ -78,6 +78,8 @@ public class TouchManager {
 	}
 	
 	public boolean pushEvent(MotionEvent ev) {
+
+		// point
 		float tx, ty;
 		if(horizontal) {
 			tx=(ev.getX()-transValue)/scaleRate-gameWidth/2;
@@ -87,11 +89,13 @@ public class TouchManager {
 			ty=(ev.getY()-transValue)/scaleRate-gameHeight/2;
 		}
 		
+		// create event
+		GameEvent newEvent = null;
 		switch(ev.getAction()) {
 
 		case MotionEvent.ACTION_DOWN:
 			if(tx<-gameWidth/2 || tx>gameWidth/2 || ty<-gameHeight/2 || ty>gameHeight/2) return false;
-			event.add(new GameEvent(GameEvent.MOTION_DOWN,tx,ty));
+			newEvent = new GameEvent(GameEvent.MOTION_DOWN,tx,ty);
 			GameLog.debug(this,"Action Down : "+tx+", "+ty);
 			pressed=true;
 			pressX=tx;
@@ -99,48 +103,60 @@ public class TouchManager {
 			pressTime=System.currentTimeMillis();
 			shortPressChecked=false;
 			longPressChecked=false;
-			return true;
+			break;
 			
 		case MotionEvent.ACTION_UP:
-			event.add(new GameEvent(GameEvent.MOTION_UP,tx,ty));
+			newEvent = new GameEvent(GameEvent.MOTION_UP,tx,ty);
 			GameLog.debug(this,"Action Up : "+tx+", "+ty);
 			if(pressed && (System.currentTimeMillis()-pressTime)<CLICK_TIME) {
-				event.add(new GameEvent(GameEvent.MOTION_CLICK,tx,ty));
+				newEvent = new GameEvent(GameEvent.MOTION_CLICK,tx,ty);
 				GameLog.debug(this,"Action Click : "+tx+", "+ty);
 			}
 			pressed=false;
-			return true;
+			break;
 			
 		case MotionEvent.ACTION_MOVE:
-			event.add(new GameEvent(GameEvent.MOTION_DRAG,tx,ty));
+			newEvent = new GameEvent(GameEvent.MOTION_DRAG,tx,ty);
 			//GameLog.debug(this, "Action Move : "+tx+", "+ty);
 			if( pressed && Func.distan(pressX,pressY,tx,ty) > SPECIAL_ACTION_RANGE ) {
 				GameLog.debug(this,"Click Range Out : "+(tx-pressX)+", "+(ty-pressY));
 				pressed=false;
 			}
-			return true;
+			break;
 			
-		default:
-			return false;
 		}
+		
+		// add event
+		if(newEvent == null) return false;
+		synchronized(event) {
+			event.add(newEvent);
+		}
+		return true;
 		
 	}
 	
 	public void pushEvent(int keyCode) {
+		
+		// create event
+		GameEvent newEvent = null;
 		if(keyCode==KeyEvent.KEYCODE_BACK) {
 			GameLog.debug(this,"Key back");
-			event.add(new GameEvent(GameEvent.KEY_BACK));
+			newEvent = new GameEvent(GameEvent.KEY_BACK);
 		}
-	}
-	
-	public GameEvent peekEvent() {
-		pressEventCheck();
-		return event.peek();
+
+		// add event
+		if(newEvent == null) return;
+		synchronized(event) {
+			event.add(newEvent);
+		}
+		
 	}
 	
 	public GameEvent pollEvent() {
 		pressEventCheck();
-		return event.poll();
+		synchronized(event) {
+			return event.poll();
+		}
 	}
 	
 	private void pressEventCheck() {

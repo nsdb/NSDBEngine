@@ -84,6 +84,7 @@ public class GameController extends Thread implements Communicable {
 	public final void run() {
 		super.run();
 		GameLog.info(this,"Game thread is running");
+		GameEvent event;
 		
 		while(!isEnded) {
 			
@@ -97,8 +98,10 @@ public class GameController extends Thread implements Communicable {
 				main.playGame( frameManager.getPeriod() );
 				
 				// process events
-				while(touchManager.peekEvent()!=null) {
-					main.receiveMotion( touchManager.pollEvent() );
+				while(true) {
+					event = touchManager.pollEvent();
+					if(event == null) break;
+					main.receiveMotion( event );
 				}
 				
 				// frame check end
