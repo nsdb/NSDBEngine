@@ -130,8 +130,7 @@ public class GameActivity extends Activity implements OnTouchListener {
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		thread.pushEvent(event);
-		return true;
+		return thread.pushEvent(event);
 	}
 	
 	/**

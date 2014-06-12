@@ -58,9 +58,9 @@ public abstract class GameObject implements Communicable {
 		float tax=point.x;
 		float tay=point.y;
 		
-		ev.translate(tax, tay);
-		customMotion(ev);
 		ev.translate(-tax, -tay);
+		customMotion(ev);
+		ev.translate(tax, tay);
 	}
 	
 	/**
@@ -105,9 +105,9 @@ public abstract class GameObject implements Communicable {
 		float tax=point.x;
 		float tay=point.y;
 		
-		gl.glTranslatef(-tax, tay, 0);
-		tDrawable.draw(gl);
 		gl.glTranslatef(tax, -tay, 0);
+		tDrawable.draw(gl);
+		gl.glTranslatef(-tax, tay, 0);
 	}
 	
 	/**

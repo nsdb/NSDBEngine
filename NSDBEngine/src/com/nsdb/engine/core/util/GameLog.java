@@ -12,8 +12,6 @@ public class GameLog {
 	
 	private static Calendar cal;
 	
-	public static final boolean DEBUG=true;
-	
 	public static void init(String type) {
 		if(cal == null) cal=Calendar.getInstance();
 		info("GameLog","Logger inited : type-"+type);

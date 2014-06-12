@@ -85,9 +85,6 @@ public class GameController extends Thread implements Communicable {
 		super.run();
 		GameLog.info(this,"Game thread is running");
 		
-		// temp variable (Frequently changed)
-		GameEvent ev=null;
-		
 		while(!isEnded) {
 			
 			// do thread's work (including draw screen)
@@ -101,8 +98,7 @@ public class GameController extends Thread implements Communicable {
 				
 				// process events
 				while(touchManager.peekEvent()!=null) {
-					ev=touchManager.pollEvent();
-					main.receiveMotion(ev);
+					main.receiveMotion( touchManager.pollEvent() );
 				}
 				
 				// frame check end
@@ -151,13 +147,13 @@ public class GameController extends Thread implements Communicable {
 	}
 	
 	// touch event
-	public final void pushEvent(MotionEvent ev) {
+	public final boolean pushEvent(MotionEvent ev) {
 		if(viewScreenWidth==0 && viewScreenHeight==0) {
 			viewScreenWidth=renderingManager.getViewWidth();
 			viewScreenHeight=renderingManager.getViewHeight();
 			touchManager.setViewScreenInfo(viewScreenWidth, viewScreenHeight);
 		}
-		touchManager.pushEvent(ev);
+		return touchManager.pushEvent(ev);
 	}
 	public final void pushEvent(int keyCode) {
 		touchManager.pushEvent(keyCode);
