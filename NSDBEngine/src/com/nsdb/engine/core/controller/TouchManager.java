@@ -89,13 +89,12 @@ public class TouchManager {
 			ty=(ev.getY()-transValue)/scaleRate-gameHeight/2;
 		}
 		
-		// create event
-		GameEvent newEvent = null;
+		// process event
 		switch(ev.getAction()) {
 
 		case MotionEvent.ACTION_DOWN:
 			if(tx<-gameWidth/2 || tx>gameWidth/2 || ty<-gameHeight/2 || ty>gameHeight/2) return false;
-			newEvent = new GameEvent(GameEvent.MOTION_DOWN,tx,ty);
+			synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_DOWN,tx,ty)); }
 			GameLog.debug(this,"Action Down : "+tx+", "+ty);
 			pressed=true;
 			pressX=tx;
@@ -103,75 +102,62 @@ public class TouchManager {
 			pressTime=System.currentTimeMillis();
 			shortPressChecked=false;
 			longPressChecked=false;
-			break;
+			return true;
 			
 		case MotionEvent.ACTION_UP:
-			newEvent = new GameEvent(GameEvent.MOTION_UP,tx,ty);
+			synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_UP,tx,ty)); }
 			GameLog.debug(this,"Action Up : "+tx+", "+ty);
 			if(pressed && (System.currentTimeMillis()-pressTime)<CLICK_TIME) {
-				newEvent = new GameEvent(GameEvent.MOTION_CLICK,tx,ty);
+				synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_CLICK,tx,ty)); }
 				GameLog.debug(this,"Action Click : "+tx+", "+ty);
 			}
 			pressed=false;
-			break;
+			return true;
 			
 		case MotionEvent.ACTION_MOVE:
-			newEvent = new GameEvent(GameEvent.MOTION_DRAG,tx,ty);
+			synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_DRAG,tx,ty)); }
 			//GameLog.debug(this, "Action Move : "+tx+", "+ty);
 			if( pressed && Func.distan(pressX,pressY,tx,ty) > SPECIAL_ACTION_RANGE ) {
 				GameLog.debug(this,"Click Range Out : "+(tx-pressX)+", "+(ty-pressY));
 				pressed=false;
 			}
-			break;
+			return true;
+			
+		default:
+			return false;
 			
 		}
-		
-		// add event
-		if(newEvent == null) return false;
-		synchronized(event) {
-			event.add(newEvent);
-		}
-		return true;
 		
 	}
 	
 	public void pushEvent(int keyCode) {
 		
-		// create event
-		GameEvent newEvent = null;
 		if(keyCode==KeyEvent.KEYCODE_BACK) {
 			GameLog.debug(this,"Key back");
-			newEvent = new GameEvent(GameEvent.KEY_BACK);
+			synchronized(event) { event.add(new GameEvent(GameEvent.KEY_BACK)); }
 		}
 
-		// add event
-		if(newEvent == null) return;
-		synchronized(event) {
-			event.add(newEvent);
-		}
-		
 	}
 	
 	public GameEvent pollEvent() {
 		pressEventCheck();
-		synchronized(event) {
-			return event.poll();
-		}
+		synchronized(event) { return event.poll(); }
 	}
 	
 	private void pressEventCheck() {
-		if(pressed) {
-			if(!shortPressChecked && System.currentTimeMillis()-pressTime>=SHORTPRESS_TIME) {
-				event.add(new GameEvent(GameEvent.MOTION_SHORTPRESS,pressX,pressY));
-				GameLog.debug(this,"Action ShortPress : "+pressX+", "+pressY);
-				shortPressChecked=true;
-			}
-			if(!longPressChecked && System.currentTimeMillis()-pressTime>=LONGPRESS_TIME) {
-				event.add(new GameEvent(GameEvent.MOTION_LONGPRESS,pressX,pressY));
-				GameLog.debug(this,"Action LongPress : "+pressX+", "+pressY);
-				longPressChecked=true;
-			}		
+		if(!pressed) return;
+		
+		if(!shortPressChecked && System.currentTimeMillis()-pressTime>=SHORTPRESS_TIME) {
+			synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_SHORTPRESS,pressX,pressY)); }
+			GameLog.debug(this,"Action ShortPress : "+pressX+", "+pressY);
+			shortPressChecked=true;
 		}
+		if(!longPressChecked && System.currentTimeMillis()-pressTime>=LONGPRESS_TIME) {
+			synchronized(event) { event.add(new GameEvent(GameEvent.MOTION_LONGPRESS,pressX,pressY)); }
+			GameLog.debug(this,"Action LongPress : "+pressX+", "+pressY);
+			longPressChecked=true;
+		}		
+		
 	}
 
 }
