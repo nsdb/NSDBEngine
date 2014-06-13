@@ -26,7 +26,7 @@ public class Collision {
 		if(col.type == type) {
 			
 			switch(type) {
-			case TYPE_RECT: return (x+w/2 > col.x-col.w/2 || x-w/2 < col.x+col.w/2) && (y+h/2 > col.y-col.h/2 || y-h/2 < col.y+col.h/2);
+			case TYPE_RECT: return (x+w/2 > col.x-col.w/2 && x-w/2 < col.x+col.w/2) && (y+h/2 > col.y-col.h/2 && y-h/2 < col.y+col.h/2);
 			case TYPE_OVAL: return ( Math.pow(x-col.x, 2) + Math.pow(y-col.y, 2) ) < ( Func.distan(w/2*x, h/2*y, w/2*col.x, h/2*col.y) + Func.distan(col.w/2*x, col.h/2*y, col.w/2*col.x, col.h/2*col.y) );
 			default: return false;
 			}
@@ -39,10 +39,10 @@ public class Collision {
 			else return false;
 			
 			// 2 vertical edge of rect and horizontal line of oval
-			if( (rect.x+rect.w/2 > oval.x-oval.w/2 || rect.x-rect.w/2 < oval.x+oval.w/2) && (rect.y+rect.h/2 > oval.y && rect.y-rect.h/2 < oval.y) ) return true;
+			if( (rect.x+rect.w/2 > oval.x-oval.w/2 && rect.x-rect.w/2 < oval.x+oval.w/2) && (rect.y+rect.h/2 > oval.y && rect.y-rect.h/2 < oval.y) ) return true;
 			
 			// 2 horizontal edge of rect and vertical line of oval
-			if( (rect.x+rect.w/2 > oval.x && rect.x-rect.w/2 < oval.x) && (rect.y+rect.h/2 > oval.y-oval.h/2 || rect.y-rect.h/2 < oval.y+oval.h/2) ) return true;
+			if( (rect.x+rect.w/2 > oval.x && rect.x-rect.w/2 < oval.x) && (rect.y+rect.h/2 > oval.y-oval.h/2 && rect.y-rect.h/2 < oval.y+oval.h/2) ) return true;
 			
 			// 4 vertex of rect and oval
 			float rectX = rect.x+rect.w/2;
